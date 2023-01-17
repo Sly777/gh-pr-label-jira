@@ -30,14 +30,21 @@ inputs:
     description: 'Flag indicating if the "labels" from Jira should be added as a PR label'
     default: true
     required: false
+  ticket-regex:
+    required: false
+    description: 'To link a PR with a jira ticket, PR title and body will be scanned using this regex'
+    default: '([A-Z]+[A-Z0-9_]*-\d+)'
+  label-prefix:
+    required: false
+    description: 'Prefix used when adding labels to the PR.'
 outputs:
-  issue-key: 
+  issue-key:
     description: 'The issue key that was found'
-  issue-type: 
+  issue-type:
     description: 'The Jira issue type for the corresponding Jira issue'
-  issue-priority: 
+  issue-priority:
     description: 'The priority set in Jira for the corresponding Jira issue'
-  issue-fix-version: 
+  issue-fix-version:
     description: 'The fix version on the corresponding Jira issue'
 runs:
   using: 'node16'

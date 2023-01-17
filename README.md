@@ -1,17 +1,20 @@
 # Jira Fields as PR Labels
 
 This action adds a few fields from Jira as a label on the pull request. Specifically, it will sync the following from Jira:
+
 - Issue Type
 - Priority
 - Labels
 
-Each PR label will have a specific prefix to clearly indicate what Jira field it represents.  
+Each PR label will have a specific prefix to clearly indicate what Jira field it represents.
 By default all of the items mentioned above are synced, but you can turn off certain ones.
 
 This action will cause the job to fail if a Jira issue key is not found as part of the pull request or if the issue key does not exist in Jira. To prevent this from failing the workflow, you can use the [`continue-on-error`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error) property offered by GitHub.
+
 ## Usage
 
 Basic example
+
 ```yaml
 name: My Pull Request Workflow
 
@@ -23,7 +26,6 @@ jobs:
   some_job_name:
     runs-on: ubuntu-latest
     steps:
-
       - uses: morficus/jira-issue-type-label
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,6 +35,7 @@ jobs:
 ```
 
 By default, all fields specified above are synced, but you can also choose to not sync/skip certain ones.
+
 ```yaml
 name: My Pull Request Workflow
 
@@ -44,7 +47,6 @@ jobs:
   some_job_name:
     runs-on: ubuntu-latest
     steps:
-
       - uses: morficus/jira-issue-type-label
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -54,8 +56,9 @@ jobs:
           sync-issue-labels: false
 ```
 
-As a convenience, this action exposes a few properties on the Jira issue as outputs.  
+As a convenience, this action exposes a few properties on the Jira issue as outputs.
 For a full list of outputs, see the "Output Options" section.
+
 ```yaml
 name: My Pull Request Workflow
 
@@ -67,7 +70,6 @@ jobs:
   some_job_name:
     runs-on: ubuntu-latest
     steps:
-
       - id: addLabel
         uses: morficus/jira-issue-type-label
         with:
@@ -82,27 +84,26 @@ jobs:
 
 ## Input Options
 
-| Key      | Description | Required | Default Value
-| ----------- | ----------- | ----------- | ----------- |
-| `github-token` | Token used to add labels to the PR. Can be passed in using `${{ secrets.GITHUB_TOKEN }}`       | true | undefined
-| `jira-api-token` | API Token used to access the Jira REST API. Must have read access to your Jira projects & issues. For details, see Atlassian's official documentation: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/       | true | undefined
-| `jira-username` | Username that can use the Jira API token. Must have read access to your Jira projects & issues. For details, see Atlassian's official documentation: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/       | true | undefined
-| `jira-base-url` | Your Jira subdomain. i.e.: https://your-domain.atlassian.net       | true | undefined
-| `issue-key-location` | Where in the PR to look for issue key. Values can be: `branch`, `title` or `both`       | false | `title`
-| `sync-issue-type` | Flag indicating if the "issue type" from Jira should be added as a PR label | false | `true`
-| `sync-issue-priority` | Flag indicating if the "priority" value from Jira should be added as a PR label | false | `true`
-| `sync-issue-labels` | Flag indicating if the "labels" from Jira should be added as a PR label | false | `true`
+| Key                   | Description                                                                                                                                                                                                                                               | Required | Default Value |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| `github-token`        | Token used to add labels to the PR. Can be passed in using `${{ secrets.GITHUB_TOKEN }}`                                                                                                                                                                  | true     | undefined     |
+| `jira-api-token`      | API Token used to access the Jira REST API. Must have read access to your Jira projects & issues. For details, see Atlassian's official documentation: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/ | true     | undefined     |
+| `jira-username`       | Username that can use the Jira API token. Must have read access to your Jira projects & issues. For details, see Atlassian's official documentation: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/   | true     | undefined     |
+| `jira-base-url`       | Your Jira subdomain. i.e.: https://your-domain.atlassian.net                                                                                                                                                                                              | true     | undefined     |
+| `issue-key-location`  | Where in the PR to look for issue key. Values can be: `branch`, `title` or `both`                                                                                                                                                                         | false    | `title`       |
+| `sync-issue-type`     | Flag indicating if the "issue type" from Jira should be added as a PR label                                                                                                                                                                               | false    | `true`        |
+| `sync-issue-priority` | Flag indicating if the "priority" value from Jira should be added as a PR label                                                                                                                                                                           | false    | `true`        |
+| `sync-issue-labels`   | Flag indicating if the "labels" from Jira should be added as a PR label                                                                                                                                                                                   | false    | `true`        |
 
 ## Output Options
 
-| Key   | Description   
-| ----------- | ----------- |
-| `issue-key` | The Jira issue key that was found
-| `issue-type` | The Jira issue type for the corresponding Jira issue 
-| `issue-priority` | The priority set in Jira for the corresponding Jira issue
-| `issue-labels` | The labels set in Jira for the corresponding Jira issue
-| `issue-fix-version` | The fix version on the corresponding Jira issue
-
+| Key                 | Description                                               |
+| ------------------- | --------------------------------------------------------- |
+| `issue-key`         | The Jira issue key that was found                         |
+| `issue-type`        | The Jira issue type for the corresponding Jira issue      |
+| `issue-priority`    | The priority set in Jira for the corresponding Jira issue |
+| `issue-labels`      | The labels set in Jira for the corresponding Jira issue   |
+| `issue-fix-version` | The fix version on the corresponding Jira issue           |
 
 ## Frequently Asked Questions
 
@@ -113,7 +114,7 @@ jobs:
 
 <details>
   <summary>How do I create a GitHub API token?</summary>
-  There is no need to do this manually. GitHub automatically provides/injects a token in every job that can be used for GitHub Actions. The default environment variable name is `secrets.GITHUB_TOKEN`.  
+  There is no need to do this manually. GitHub automatically provides/injects a token in every job that can be used for GitHub Actions. The default environment variable name is `secrets.GITHUB_TOKEN`.
 You can check out the official GitHub documentation for more information about it: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 </details>
 
@@ -124,17 +125,18 @@ You can check out the official GitHub documentation for more information about i
 
 <details>
   <summary>Does this work with Jira Server (aka: on-prem)?</summary>
-  Honestly, no clue. I don't have access to a Jira Server instance so I'm not able to test it.  
+  Honestly, no clue. I don't have access to a Jira Server instance so I'm not able to test it.
 But seeing how Atlassian is [ending support for it](https://www.atlassian.com/migration/assess/journey-to-cloud), there are no plans to support it.
 </details>
 
 <details>
   <summary>Does this work with Jira Data Center edition?</summary>
-  Honestly, no clue. I don't have access to a Jira Data Center instance so I'm not able to test it.  
+  Honestly, no clue. I don't have access to a Jira Data Center instance so I'm not able to test it.
 But if you do have access to one, I would not mind working together to get things working
 </details>
 
 ## Future Functionality / Road Map
+
 Here are a few things I want to add to this project over time
 
 - [x] Option to sync labels from Jira to PR labels
@@ -144,6 +146,8 @@ Here are a few things I want to add to this project over time
 - [ ] Ability to manage labels via a configuration file (this might end up being a different action)
 
 ## Inspiration
+
 Inspiration for this action came from the following existing projects:
+
 - [jira-description](https://github.com/marketplace/actions/jira-description)
 - [jira-lint](https://github.com/marketplace/actions/jira-lint)
